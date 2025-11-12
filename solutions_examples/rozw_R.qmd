@@ -1,0 +1,35 @@
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane <- read_table("Dane/1.txt", col_names = c("pierwsza", "druga"))
+```
+
+```{r}
+p <- dane$pierwsza %>% 
+  sort()
+d <- dane$druga %>% sort()
+
+#rozwiązanie pierwszego zadania
+tibble(p,d) %>% 
+  mutate(ile = abs(p - d)) %>% 
+  summarise(sum(ile))
+```
+
+```{r}
+licz <- dane %>% count(druga)
+
+licz
+```
+
+```{r}
+#rozwiązanie części drugiej
+
+dane %>% 
+filter(pierwsza %in% druga) %>% 
+  select(pierwsza) %>% 
+  merge(x=., y=licz, by.x = "pierwsza", by.y = "druga", all = FALSE) %>% 
+  mutate(ile = pierwsza * n) %>% 
+  summarise(sum(ile))
+```
