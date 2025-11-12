@@ -5,10 +5,12 @@
   Projekt ma na celu rozwijać nasze programistyczne umiejętności rozwiązując zadania z [Advent of Code](https://adventofcode.com/), omawiając ~co tydzień na żywo nasze rozwiązania (lub próby rozwiązań) zadań
 
 ## Jak dołączyć?
-  Dodajcie się do tabelki w pliku [`participants.md`](https://github.com/DziouchaZWezemNaGowie/AdventOfCode/blob/main/participants.md). Jak nie chcecie tam wpisywać swojego Discorda, to napiszcie do mnie (DziouchyZWężemNaGowie) na priv na GitHubie lub Discordzie, to dodam was do serwera na Discordzie bez ujawniania tych danych tutaj.
+  Dodajcie się do tabelki w pliku [`participants.md`](https://github.com/DziouchaZWezemNaGowie/AdventOfCode/blob/main/participants.md) + jeśli nie ma was na serwerze na Discordzie, napiszcie do mnie (DziouchyZWężemNaGowie) DMa gdziekolwiek.
 
-## Spotkania
-  Będziemy się spotykać co tydzień w weekendy (dokładne terminy do ustalenia, co tydzień to wstępny rozkład, na pewno będą przerwy na święta, nowy rok itd.) i omawiać rozwiązania.
+## Spotkania i deadline na rozwiązanie zadań
+  Będziemy się spotykać co tydzień w weekendy (dokładne terminy do ustalenia, co tydzień to wstępny rozkład, na pewno będą przerwy na święta, nowy rok itd.) i omawiać rozwiązania. Spotkania nie są obowiązkowe (będę starała się dać też jakiś feedback na GitHubie), 
+  
+  Swoje rozwiązania proszę zamieszczać na GitHubie (w tym repozytorium) w odpowiednim folderze najpóźniej na dobę przed planowanym spotk
 
 ## Przygotowanie
   Dobrze zanim rozpoczniemy naszą przygodę wiedzieć, jak w waszym wybranym języku załadować dane z pliku .txt (Advent of Code wyświetla wam dane w nowym oknie przeglądarki, więc najłatwiej jest wcisnąć `Ctrl + A`, `Ctrl + C` i potem wkleić całość do notatnika). Tak, wiem, może kusić, żeby wkleić sobie te dane do ładnej tabelki w Excelu i potem od razu wczytać dane w formie tabelki do waszego programu (o ile wasz język lubi pracę z  tabelkami, jak `R` np.), ale dobrze jest jednak całość zadania rozwiązać w swoim języku programowania. W zależności od języka, niektóre kursy wprowadzają wczytywanie danych z pliku na dość późnym etapie, więc jeśli jeszcze do niego nie dotarliście, to warto ten jeden aspekt uzupełnić.
@@ -48,3 +50,10 @@
   Też są OK, jeśli inne opcje was zawiodły. Najważniejsze, żeby algorytm (sposób rozwiązania zadania) był waszego autorstwa. Jednak najlepiej by było, żebyście używali AI co najwyżej jako podrasowanej wyszukiwarki. Pamiętajcie, że celem tego projektu jest rozwinięcie waszych umiejętności, a co to za programista, co tylko kopiuje kod wyhalucynowany przez chatGPT?
   
 ## Leaderboard
+
+Poza prywatnym leaderboardem na Advent of Code, gdzie przyznawane są gwiazdki za każdą rozwiązaną część zadania + liczy się czas stworzymy sobie własny leaderboard, gdzie za każdą część zadania można dostać 4 punkty (czyli za całe zadanie 8):
+
+- 1 punkt, jeśli rozwiązanie działa poprawnie dla przykładu podanego w treści zadania.
+- 2 punkty, jeśli rozwiązanie działa dla przykładu z treści oraz waszego inputu, ale nie jest rozwiązaniem formalnie poprawnym (tj. nie zadziałałoby dla dowolnego inputu)
+- 3 punkty, jeśli rozwiązanie działa poprawnie dla przykładu podanego w treści zadania oraz jest formalnie poprawnym rozwiązaniem zadania, ale program nie działa dla waszego inputu przez ograniczenia czasowe/obliczeniowe komputera (np. rozwiązanie jest poprawne, ale komputer musiałby pracować tydzień non-stop, żeby wyliczyć odpowiedź)
+- 4 punkty, jeśli rozwiązanie działa dla przykładu z treści, waszego inputu oraz jest rozwiązaniem formalnie poprawnym.
