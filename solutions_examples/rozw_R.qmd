@@ -3,7 +3,7 @@ library(tidyverse)
 ```
 
 ```{r}
-dane <- read_table("Dane/1.txt", col_names = c("pierwsza", "druga"))
+dane <- read_table("Dane/1.2024_moj_input.txt", col_names = c("pierwsza", "druga"))
 ```
 
 ```{r}
