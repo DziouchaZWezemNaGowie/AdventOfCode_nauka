@@ -10,14 +10,14 @@
 ## Spotkania i deadline na rozwiązanie zadań
   Będziemy się spotykać co tydzień w weekendy (dokładne terminy do ustalenia, co tydzień to wstępny rozkład, na pewno będą przerwy na święta, nowy rok itd.) i omawiać rozwiązania. Spotkania nie są obowiązkowe (będę starała się dać też jakiś feedback na GitHubie), 
   
-  Swoje rozwiązania proszę zamieszczać na GitHubie (w tym repozytorium) w odpowiednim folderze najpóźniej na dobę przed planowanym spotk
+  Swoje rozwiązania proszę zamieszczać na GitHubie (w tym repozytorium) w odpowiednim folderze najpóźniej na dobę przed planowanym spotkaniem.
 
 ## Przygotowanie
   Dobrze zanim rozpoczniemy naszą przygodę wiedzieć, jak w waszym wybranym języku załadować dane z pliku .txt (Advent of Code wyświetla wam dane w nowym oknie przeglądarki, więc najłatwiej jest wcisnąć `Ctrl + A`, `Ctrl + C` i potem wkleić całość do notatnika). Tak, wiem, może kusić, żeby wkleić sobie te dane do ładnej tabelki w Excelu i potem od razu wczytać dane w formie tabelki do waszego programu (o ile wasz język lubi pracę z  tabelkami, jak `R` np.), ale dobrze jest jednak całość zadania rozwiązać w swoim języku programowania. W zależności od języka, niektóre kursy wprowadzają wczytywanie danych z pliku na dość późnym etapie, więc jeśli jeszcze do niego nie dotarliście, to warto ten jeden aspekt uzupełnić.
 
   *Fun fact:* Dane do zadań w części praktycznej matury z informatyki są w formie plików .txt 😃
 
-  Za niedługo wrzucę rozwiązania [zadania 1 z 2024 r.](https://adventofcode.com/2024/day/1) w językach, które zadeklarujecie, więc możecie spróbować rozwiązać te zadania samodzielnie, a potem porównać z zamieszczonymi przeze mnie rozwiązaniami.
+  W folderze [solution_examples](https://github.com/DziouchaZWezemNaGowie/AdventOfCode_nauka/tree/main/solutions_examples) znajduje się skrót treści [zadania 1 z 2024 r.](https://adventofcode.com/2024/day/1) oraz rozwiązania w różnych językach (jak waszego tam brakuje, to za niedługo dodam rozwiązanie), więc możecie spróbować rozwiązać te zadania samodzielnie, a potem porównać z zamieszczonymi przeze mnie rozwiązaniami.
 
 ## Sposób rozwiązania
   Ważne jest rozwiązanie zadań samemu. Można oczywiście korzystać z wszelkich pomocy naukowych (podręczników, tutoriali, notatek z zajęć itd.) Jeśli chodzi o AI bynajmniej **nie** używajcie go do rozwiązania za was zadań, jak nie jesteście pewni, czy możecie w danej sytuacji użyć AI służę przykładem.
