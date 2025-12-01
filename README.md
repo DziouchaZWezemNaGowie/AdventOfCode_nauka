@@ -12,6 +12,8 @@
   
   Swoje rozwiązania proszę zamieszczać na GitHubie (w tym repozytorium) w odpowiednim folderze najpóźniej na dobę przed planowanym spotkaniem.
 
+  Jeśli **wszyscy** rozwiążą więcej zadań niż przewidziane na dany tydzień, to spotkanie może dotyczyć kilku zadań, a następny tydzień będzie dotyczył kolejnego nierozwiązanego zadania, o ile wszyscy się na to zgodzą.
+
 ## Przygotowanie
   Dobrze zanim rozpoczniemy naszą przygodę wiedzieć, jak w waszym wybranym języku załadować dane z pliku .txt (Advent of Code wyświetla wam dane w nowym oknie przeglądarki, więc najłatwiej jest wcisnąć `Ctrl + A`, `Ctrl + C` i potem wkleić całość do notatnika). Tak, wiem, może kusić, żeby wkleić sobie te dane do ładnej tabelki w Excelu i potem od razu wczytać dane w formie tabelki do waszego programu (o ile wasz język lubi pracę z  tabelkami, jak `R` np.), ale dobrze jest jednak całość zadania rozwiązać w swoim języku programowania. W zależności od języka, niektóre kursy wprowadzają wczytywanie danych z pliku na dość późnym etapie, więc jeśli jeszcze do niego nie dotarliście, to warto ten jeden aspekt uzupełnić.
 
@@ -57,3 +59,7 @@ Poza prywatnym leaderboardem na Advent of Code, gdzie przyznawane są gwiazdki z
 - 2 punkty, jeśli rozwiązanie działa dla przykładu z treści oraz waszego inputu, ale nie jest rozwiązaniem formalnie poprawnym (tj. nie zadziałałoby dla dowolnego inputu)
 - 3 punkty, jeśli rozwiązanie działa poprawnie dla przykładu podanego w treści zadania oraz jest formalnie poprawnym rozwiązaniem zadania, ale program nie działa dla waszego inputu przez ograniczenia czasowe/obliczeniowe komputera (np. rozwiązanie jest poprawne, ale komputer musiałby pracować tydzień non-stop, żeby wyliczyć odpowiedź)
 - 4 punkty, jeśli rozwiązanie działa dla przykładu z treści, waszego inputu oraz jest rozwiązaniem formalnie poprawnym.
+
+## Umieszczanie rozwiązań na GitHubie
+
+Rozwiązania umieszczamy w folderze dotyczącym konkretnego dnia. Jeśli foldera nie ma, możecie go stworzyć (przy umieszczaniu pliku w nazwie pliku zamiast `plik.rozszerzenie` piszecie `nazwa_foldera/plik.rozszerzenie`), nadając folderowi nazwę analogiczną do innych (`Day_n`).
