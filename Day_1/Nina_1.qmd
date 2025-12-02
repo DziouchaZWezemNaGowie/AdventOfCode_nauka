@@ -1,0 +1,44 @@
+```{r}
+library(tidyverse)
+```
+
+```{r}
+do_liczb <- function(x) x %>% str_extract("\\d+") %>% as.numeric()
+bez_kier <- function(x) if_else(str_extract(x, "^.") == "L",
+                                (-1)*do_liczb(x),
+                                do_liczb(x))
+
+dane <- read_lines("Dane/Zad_1.txt") %>% 
+  bez_kier()
+```
+
+```{r}
+obroty <- c(50,dane) %>% 
+  as_tibble() %>% 
+  mutate(ile = cumsum(value), co = ile %% 100)
+```
+
+```{r}
+# Pierwsze zadanie
+
+zera <- obroty %>% 
+  filter(co == 0) %>% 
+  count(co) %>% 
+  select(n) %>% 
+  as_vector()
+```
+
+```{r}
+# Drugie zadanie
+
+obroty %>% 
+  mutate(dziel = floor(ile/100),
+         przyr = abs(dziel - lag(dziel))) %>% 
+  mutate(przyr = if_else(lag(co) == 0 & value < 0, # gdy idziemy w lewo z 0 naliczamy za dużo o 1
+                         przyr - 1,
+                         przyr)) %>% 
+  mutate(przyr = if_else(co == 0 & value < 0, # gdy idziemy w lewo do zera, to naliczamy za mało o 1
+                         przyr + 1,
+                         przyr)) %>% 
+  summarise(sum(przyr, na.rm = TRUE))
+```
