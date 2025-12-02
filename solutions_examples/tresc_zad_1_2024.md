@@ -4,7 +4,7 @@
 
   Dostajesz dane -- 2 listy liczb w dwóch kolumnach. Sparuj *najmniejszą liczbę w lewej liście* z *najmniejszą liczbą w prawej liście*, następnie *drugą najmniejszą liczbę w lewej* z *drugą najmniejszą liczbą w prawej* itd.
   
-  W każdej parze, znajdź j*ak daleko od siebie* są te 2 liczby. Następnie *dodaj wszystkie te odległości*. Np. jeśli w sparujesz 3 z lewej listy z 7 z prawej listy, to odległość wynosi 9.
+  W każdej parze, znajdź *jak daleko od siebie* są te 2 liczby. Następnie *dodaj wszystkie te odległości*. Np. jeśli w sparujesz 3 z lewej listy z 7 z prawej listy, to odległość wynosi 4.
 
   Dla przykładowych danych:
 
