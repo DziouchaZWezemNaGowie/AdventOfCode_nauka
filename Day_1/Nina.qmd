@@ -21,7 +21,7 @@ obroty <- c(50,dane) %>%
 ```{r}
 # Pierwsze zadanie
 
-zera <- obroty %>% 
+obroty %>% 
   filter(co == 0) %>% 
   count(co) %>% 
   select(n) %>% 
