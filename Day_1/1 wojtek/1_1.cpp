@@ -1,0 +1,50 @@
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<cmath>
+
+int main()
+ {
+    std::ifstream infile;
+    infile.open("3.txt");
+    if(infile.is_open()) 
+    {
+        std::string read;
+        int licz=50;
+        int wynik=0;
+        char r = 'R';
+        int liczba;
+        int lenght;
+        std::string str_z_liczba;
+        int size;
+        while (infile >> read )
+        {
+			size = read.size();
+            lenght = size - 1;
+            str_z_liczba = read.substr(1,lenght);
+            liczba = std::stoi(str_z_liczba);        //wyciagam liczbe
+            auto right = read.find(r);              //szukam r
+            if (right == std::string::npos) {            //sprawdzam czy nie znalazlo r
+				licz = licz - liczba;
+            }else{
+                licz = licz + liczba;
+            }
+            while(licz > 99){
+            	licz = licz - 100;
+            	std::cout << wynik << ",";
+			}
+			while(licz < 0) {
+				licz = licz + 100;
+				std::cout << wynik << ".";
+			}
+            if(licz == 0) {
+            	wynik++;
+                std::cout << wynik << ";;";
+            }
+        }
+        std::cout << wynik;
+    }else{
+        std::cout << "nie otwarlo sie";
+    }
+    return 0;
+}
