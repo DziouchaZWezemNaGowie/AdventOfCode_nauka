@@ -51,7 +51,7 @@ Zadanie rozwiązane w pełni poprawnie.
 
 Twoje rozwiązanie bardzo dobrze oddaje ideę zawartą w treści zadania, ale jest bardzo czasochłonne.
 
-Nasze dane były stosunkowo małe, więc nie było tego widać, ale twoje rozwiązanie wykorzystuje pętle `for`:
+Nasze dane były stosunkowo małe, więc nie było tego widać, ale twoje rozwiązanie wykorzystuje pętlę `for`:
 
 ```cpp
 20        for (int i = 0; i < wartosc; i++) {  //tykanie 
