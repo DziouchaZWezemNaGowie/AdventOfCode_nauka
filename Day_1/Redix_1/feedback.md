@@ -22,11 +22,11 @@ Zamiast dwóch pętli `while` (dla kierunku równego `'R'` i `'L'`) można było
 napisać
 
 ```cpp
-          if (kierunek == 'R'){            \\ ten nawias klamrowy też można opuścić
-            pozycja = pozycja + wartosc;   \\ bo jest tylko jedna rzecz pod ifem
+          if (kierunek == 'R'){
+            pozycja = pozycja + wartosc;
           }
-          else if (kierunek == 'L') {      \\ sprawdzanie czy kierunek == 'L' też można sobie podarować
-            pozycja = pozycja - wartosc;   \\ bo wiemy, że kierunek równa się tylko 'R' albo 'L'
+          else if (kierunek == 'L') {      // sprawdzanie czy kierunek == 'L' można sobie podarować
+            pozycja = pozycja - wartosc;   // bo wiemy, że kierunek równa się tylko 'R' albo 'L'
           }
           pozycja = pozycja % 100;
 ```
@@ -88,8 +88,8 @@ Ale, liczenie ile razy liczba `100` mieści się w innej liczbie to tak naprawd�
           else
               pozycja = pozycja - wartosc;
 
-          ilosc_zer = ilosc_zer + abs(licz / 100);  \\ objaśniam kod poniżej
-          pozycja = (pozycja % 100 + 100) % 100;    \\ a to jeszcze niżej
+          ilosc_zer = ilosc_zer + abs(licz / 100);  // objaśniam kod poniżej
+          pozycja = (pozycja % 100 + 100) % 100;    // a to jeszcze niżej
 ```
 
 Takie rozwiązanie ma złożoność O(1), czyli stałą, nie zależy od tego, jak duża jest `wartosc`.
@@ -119,19 +119,19 @@ Wartość dzielenia dajemy do funkcji `abs()`, czyli wartości bezwzględnej.
 Musimy wziąć poprawkę na to, że dzielenie liczby ujemne zaokrągla w górę. Jeśli startowaliśmy z pozycji między `1` a `99`, a po odjęciu wartości pozycja jest równa `-3`, to znaczy, że minęliśmy `0` raz, a dzielenie `-3/100` da nam wynik `0`! Z kolei jeśli startowaliśmy z pozycji `0`, to rzeczywiście minęliśmy `0` 0 razy. Do naszego kodu musimy dodać poprawki, chyba prościej niż jak zrobiłam poniżej się zrobić nie da:
 
 ```cpp
-          if (pozycja == 0)                         \\ jak idziemy z zera, to dzielenia nie trzeba poprawiać
-              ilosc_zer--;
-
           if (kierunek == 'R')
               pozycja = pozycja + wartosc;
-          else
+          else{
+              if (pozycja == 0)                     // jak idziemy z zera, to dzielenia nie trzeba poprawiać
+                   ilosc_zer--;
               pozycja = pozycja - wartosc;
+          }
 
-          if (pozycja <= 0)                         \\ równość, bo jak zeszliśmy z 50 na 0, to dzielenie też tego nie widzi
-              ilosc_zer++;                          \\ poprawiamy to, czego dzielenie nie wyłapało
+          if (pozycja <= 0)                         // równość, bo jak zeszliśmy z 50 na 0, to dzielenie też tego nie widzi
+              ilosc_zer++;                          // poprawiamy to, czego dzielenie nie wyłapało
 
           ilosc_zer = ilosc_zer + abs(licz / 100);
-          pozycja = (pozycja % 100 + 100) % 100;    \\ objaśnienia tego poniżej
+          pozycja = (pozycja % 100 + 100) % 100;    // objaśnienia tego poniżej
 ```
 
 W ostatniej linijce chcemy, żeby `pozycja` była liczbą z przedziału <0,99>. Niestety, w C++ modulo działa tak:
