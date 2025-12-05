@@ -114,6 +114,8 @@ dzielenie zaokrągla od prawdziwego wyniku dzielenia, jeśli jest on dodatni w d
 
 *Działa to trochę inaczej niż operator dzielenia całkowitego w Pythonie – `//`. W Pythonie `7 // 2 == 3`, a `-7 // 2 == -4`.*
 
+Wartość dzielenia dajemy do funkcji `abs()`, czyli wartości bezwzględnej.
+
 Musimy wziąć poprawkę na to, że dzielenie liczby ujemne zaokrągla w górę. Jeśli startowaliśmy z pozycji między `1` a `99`, a po odjęciu wartości pozycja jest równa `-3`, to znaczy, że minęliśmy `0` raz, a dzielenie `-3/100` da nam wynik `0`! Z kolei jeśli startowaliśmy z pozycji `0`, to rzeczywiście minęliśmy `0` 0 razy. Do naszego kodu musimy dodać poprawki, chyba prościej niż jak zrobiłam poniżej się zrobić nie da:
 
 ```cpp
