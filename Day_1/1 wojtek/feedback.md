@@ -162,31 +162,31 @@ Nie działa to do końca tak, jak efekt, który uzyskujesz w pętlach. Dzięki p
 można zdefiniować to w funkcji, nazwałam ją `mod`
 
 ```cpp
-int mod (int a, int b){   \\ ja jej nie będę używać, bo tylko raz takie modulo będzie nam potrzebne
-  (a % b + b) % b         \\ gdzie indziej sprawdzamy podzielność przez 100 (jak w części 1 zadania)
-}                         \\ do tego wystarczy %
+int mod (int a, int b){   // ja jej nie będę używać, bo tylko raz takie modulo będzie nam potrzebne
+  (a % b + b) % b         // gdzie indziej sprawdzamy podzielność przez 100 (jak w części 1 zadania)
+}                         // do tego wystarczy %
 ```
 
 Z dzieleniem również jest problem. Po pierwsze, może być ujemne, co łatwo naprawić używając wartości bezwzględnej – funkcja `std::abs()`, Ponieważ `-1 / 100 == 0`, nie wyłapuje nam ono przekroczenia `0` przy zmianie znaku, najłatwiej zrobić to z pomocą `if` i dodaniem brakującej jedynki. Proponuję zastąpić 2 pętle `while` czymś w tym stylu:
 
 ```cpp
-            if (licz > 99 && licz % 100 == 0) \\ za warunek w linijce 37
-                wynik--;                      \\ tam nie dodawaliśmy raz, tutaj z dzielenia będziemy mieli to dodanie przy 100, więc trzeba raz odjąć
-            if (licz < 0 && licz % 100 != 0)  \\ poprawa dzielenia dla ujemnych, dla podzielnych przez 100 jest dobrze
+            if (licz > 99 && licz % 100 == 0) // za warunek w linijce 37
+                wynik--;                      // tam nie dodawaliśmy raz, tutaj z dzielenia będziemy mieli to dodanie przy 100, więc trzeba raz odjąć
+            if (licz < 0 && licz % 100 != 0)  // poprawa dzielenia dla ujemnych, dla podzielnych przez 100 jest dobrze
                 wynik++;
-            wynik += std::abs(licz / 100);    \\ wartość bezwzględna z dzielenia, zapis a += b oznacza a = a + b
-            licz = (licz % 100 + 100) % 100;  \\ reszta w przedziale <0,99>
+            wynik += std::abs(licz / 100);    // wartość bezwzględna z dzielenia, zapis a += b oznacza a = a + b
+            licz = (licz % 100 + 100) % 100;  // reszta w przedziale <0,99>
 ```
 
 Teraz popatrzmy na warunki
 
 ```cpp
-          if (licz > 99 && licz % 100 == 0)   \\obniżamy wynik o 1 dla podzielnych przez 100 większych od 99 (czyli od 0 tak naprawdę)
+          if (licz > 99 && licz % 100 == 0)   // obniżamy wynik o 1 dla podzielnych przez 100 większych od 99 (czyli od 0 tak naprawdę)
             wynik--;
-          if (licz < 0 && licz % 100 != 100)  \\ podwyższamy wynik o 1 dla niepodzielnych przez 100 mniejszych od 0
+          if (licz < 0 && licz % 100 != 100)  // podwyższamy wynik o 1 dla niepodzielnych przez 100 mniejszych od 0
             wynik++;
 ...
-48            if(licz == 0) {                 \\ podwyższamy wynik o 1 dla podzielnych przez 100
+48            if(licz == 0) {                 // podwyższamy wynik o 1 dla podzielnych przez 100
 49            	wynik++;
 50                std::cout << wynik << ";;";
 51            }
