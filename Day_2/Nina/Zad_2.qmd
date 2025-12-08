@@ -1,0 +1,140 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane <- read_delim("Zad_2.txt", col_names = FALSE) %>% 
+  t() %>% 
+  as_tibble() %>% 
+  separate_wider_delim(V1, delim = "-", names = c("start", "koniec"))
+
+dane
+```
+
+```{r}
+# wyciągnij część, co będzie powtarzana
+
+devide <- function(start, koniec,k=2){
+  
+dl_start <-  str_width(start)
+dl_koniec <-  str_width(koniec)
+dziel_start <-  floor(dl_start / k)
+dziel_koniec <- floor(dl_koniec / k)
+
+part_start <- if_else(dl_start %% k == 0,
+                      strtrim(start, dziel_start),
+                      paste0("1",str_dup('0', dziel_start)))
+part_koniec <- if_else(dl_koniec %% k == 0,
+                       strtrim(koniec, dziel_koniec),
+                       str_dup('9', dziel_koniec))
+
+return(list(part_start = part_start,
+            part_koniec = part_koniec))
+}
+```
+
+```{r}
+# Jak działa devide
+
+dane %>% 
+  rowwise() %>% 
+  mutate(tmp = list(devide(start, koniec))) %>% 
+  unnest_wider(tmp)
+```
+
+```{r}
+# zliczanie nieprawidłowych raportów
+
+lacz <- function(start, koniec, a, b, k=2){
+  start <- start %>% as.numeric()
+  koniec <- koniec %>% as.numeric()
+  a <- a %>% as.numeric()
+  b <- b %>% as.numeric()
+  wynik <- 0
+  
+  for(i in a:b){
+    i <- i %>% as.character()
+    x <- str_dup(i,k) %>% as.numeric()
+    if (x>= start && x <= koniec)
+      wynik <- wynik + x
+  }
+  return(wynik)
+}
+```
+
+```{r}
+# Rozwiązanie części pierwszej
+
+dane %>% 
+  rowwise() %>% 
+  mutate(tmp = list(devide(start, koniec))) %>% 
+  unnest_wider(tmp) %>% 
+  rowwise() %>% 
+  filter(part_start <= part_koniec) %>% 
+  mutate(ile = lacz(start, koniec, part_start, part_koniec)) %>% 
+  ungroup() %>% 
+  summarise(sum(ile))
+```
+
+```{r}
+# do części drugiej poprawiam łącz, żeby zwracać wektor (żeby potem pozbyć się duplikatów)
+
+lacz_n <- function(start, koniec, a, b, k=2){
+  start <- start %>% as.numeric()
+  koniec <- koniec %>% as.numeric()
+  a <- a %>% as.numeric()
+  b <- b %>% as.numeric()
+  wynik <- NULL
+  
+  for(i in a:b){
+    i <- i %>% as.character()
+    x <- str_dup(i,k) %>% as.numeric()
+    if (x>= start && x <= koniec)
+      wynik <- c(wynik,x)
+  }
+  return(wynik)
+}
+```
+
+```{r}
+# dla jednego range ta funkcja zwraca sumę niewłaściwych reportów
+
+rob_n <- function(start, koniec, n){
+  wektor <- NULL
+  
+  for(i in 2:n){                        # dzielimy na od 2 do n części
+    devided <- devide(start, koniec, i)
+    wektor <- c(wektor, lacz_n(start, koniec, devided$part_start, devided$part_koniec, i))
+  }
+  wektor %>%
+    unique() %>%                      #usuwamy duplikaty
+    sum() %>% 
+    return()
+}
+```
+
+```{r}
+# rozwiązanie części pierwszej z rob_n
+
+dane %>% 
+  rowwise() %>% 
+  mutate(ile = rob_n(start, koniec, 2)) %>% 
+  ungroup() %>% 
+  summarise(sum(ile))
+```
+
+```{r}
+# rozwiązanie części drugiej
+
+dane %>% 
+  rowwise() %>% 
+  mutate(ile = rob_n(start, koniec, max(str_width(start), str_width(koniec)))) %>%
+  ungroup() %>% 
+  summarise(sum(ile))
+```
