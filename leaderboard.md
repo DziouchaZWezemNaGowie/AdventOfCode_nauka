@@ -4,4 +4,3 @@
 | Wiktor | 8 | 8 |
 | Wojtek | 8 | 8 |
 | Janek | 8 | 8 |
-| Asia | -- | -- |
