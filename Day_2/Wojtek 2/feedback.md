@@ -31,11 +31,11 @@ mogłeś przypisywać od razu dane z pliku do `id_min` lub `id_max`, np. używaj
 albo funkcji składowej (metody) `ignore()` (jest w `iostream`):
 
 ```cpp
-         while(!infile.eof()){          \\ dopóki nie dojdziemy do końca pliku
+         while(!infile.eof()){          // dopóki nie dojdziemy do końca pliku
             infile >> id_min;
-            infile.ignore(1);           \\ ignore(n) -- zignoruj n znaków
-            infile >> id_max;           \\ można też użyć ignore(n,znak) wtedy ignoruje wszystko do znaku znak
-            infile.ignore(1);           \\ albo n znaków, jeśli do n-tej pozycji znak nie występuje
+            infile.ignore(1);           // ignore(n) -- zignoruj n znaków
+            infile >> id_max;           // można też użyć ignore(n,znak) wtedy ignoruje wszystko do znaku znak
+            infile.ignore(1);           // albo n znaków, jeśli do n-tej pozycji znak nie występuje
 ...
 ```
 
