@@ -52,7 +52,7 @@ def main():
         end = int(end)
         
 
-        while start != end:
+        while start != end: #while start != end + 1: I działą
             start = str(start)
 
             if (len(start)) % 2 == 0 and start[int((len(start))/2):] == start[:int((len(start))/2)]:
@@ -64,4 +64,5 @@ def main():
     print(hexacentroptimus)
     ###
         
+
 main()
