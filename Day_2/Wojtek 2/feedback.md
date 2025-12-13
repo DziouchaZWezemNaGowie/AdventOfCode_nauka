@@ -314,9 +314,13 @@ Naiwnie moglibyśmy zmienić ten kod, aby dostosować go do drugiej części zad
 Niestety, takie rozwiązanie nie działa — jeśli mamy np. `111111`, to policzy nam ją 3 razy: przy podziale na 6, 3 i 2 części. Ja w swoich rozwiązania po prostu trzymałam wszystko w jednym wektorze i na końcu brałam z niego unikalne wartości i sumowałam. Tu możemy zrobić coś podobnego.
 
 ```cpp
-			string wektor[];                                  // to tablica stringów
+//do preambuły trzeba dodać
+#include<vector>                                                              // żeby mieć wektory
+#include<algorithm>															  // żeby mieć find
+...
+			std::vector<std::string> wektor;                                  // wektor stringów
 			ilosc_czesci = 2;                                   
-			ilosc_czesci_max = (std::to_string(id_max)).size();
+			int ilosc_czesci_max = (std::to_string(id_max)).size();
 			long long first_part_id;
             while(ilosc_czesci <= ilosc_czesci_max){
 				id_string = std::to_string(id_min);
@@ -331,7 +335,7 @@ Niestety, takie rozwiązanie nie działa — jeśli mamy np. `111111`, to policz
                 	first_part = "1" + first_part;
                 	first_part_id = std::stoll(first_part);
 			 	}
-             	id_string = first_part;
+				id_string = first_part;
 				for(int i = 1; i < ilosc_czesci; i++)
 					id_string += first_part;
              	long long id = std:: stoll(id_string);
@@ -342,16 +346,16 @@ Niestety, takie rozwiązanie nie działa — jeśli mamy np. `111111`, to policz
 					}
                 	first_part_id++;
                 	first_part = std::to_string(first_part_id);
-                	id_string = first_part * ilosc_czesci;
+					id_string = first_part;
+					for(int i = 1; i < ilosc_czesci; i++)
+						id_string += first_part;
                 	id = std:: stoll(id_string);
              	}
 				ilosc_czesci++;
 			}
-			for(int i = 0, i < wektor.size(); i++
+			for(int i = 0; i < wektor.size(); i++)
 				wynik += std::stoll(wektor[i]);
 ```
-
-Alternatywnie można też wykonywać kod z poprzedniego kawałka kodu tylko wtedy, gdy `ilosc_czesci` jest liczbą pierwszą.
 
 Otrzymujesz **4 punkty** za rozwiązanie drugiej części zadania.
 
