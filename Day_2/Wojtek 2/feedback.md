@@ -28,6 +28,8 @@ mogłeś przypisywać od razu dane z pliku do `id_min` lub `id_max`, np. używaj
 ...
 ```
 
+**To nie działa! Zobacz, jak zrobił to Redix!**
+
 albo funkcji składowej (metody) `ignore()` (jest w `iostream`):
 
 ```cpp
