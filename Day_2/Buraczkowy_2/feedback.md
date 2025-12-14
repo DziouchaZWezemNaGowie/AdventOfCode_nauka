@@ -147,7 +147,7 @@ Dalej, skoro teraz mamy coś takiego
 to możemy wykonywać przypisanie `nanoomegalodoimus = True` wiele razy, kiedy tak naprawdę wystarczy nam jedno. Możemy użyć polecenia `break`, żeby wyjść z pętli `for`:
 
 ```python
-            for z in range(len(str(start__ // 2):
+            for z in range(len(str(start)) // 2):
                 if patrzyk(start,z+1):
                     nanoomegalodoimus =True
                     break
@@ -158,7 +158,7 @@ Dalej sprawdzasz czy `nanoomegalodoimus == True`. Oczywiście skoro `nanoomegalo
 Ale zmienna `nanoomegalodoimus` jest nam w ogóle niepotrzebna. Zamiast:
 
 ```python
-67            for z in range(len(str(start__ // 2):
+67            for z in range(len(str(start)) // 2):
 68                if patrzyk(start,z+1):
 69                    nanoomegalodoimus =True
                       break
@@ -171,7 +171,7 @@ Ale zmienna `nanoomegalodoimus` jest nam w ogóle niepotrzebna. Zamiast:
 możemy po prostu napisać
 
 ```python
-            for z in range(len(str(start__ // 2):
+            for z in range(len(str(start)) // 2):
                 if patrzyk(start,z+1):
                     hexacentroptimus = hexacentroptimus + int(start)
                     print(start)
