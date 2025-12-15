@@ -64,7 +64,7 @@ def main():
 
 
 
-            for z in range(100):
+            for z in range(100): #lepsz pętla for z in range(len(start)):
                 if patrzyk(start,z+1):
                     nanoomegalodoimus =True           
             
@@ -117,4 +117,5 @@ def patrzyk(loddzik,szczepek):
     ###
        
 main()
+
 
