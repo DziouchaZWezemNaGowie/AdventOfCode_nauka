@@ -1,0 +1,61 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane <- read_table("dane.txt", col_names = FALSE, col_types = c("c"))
+```
+
+```{r}
+# Rozwiązanie części pierwszej
+dane %>%
+  mutate(pierwsza = X1 %>% 
+           str_sub(end = -2) %>% 
+           str_split(pattern = "", simplify = TRUE) %>% 
+           apply(1,max)) %>% 
+  mutate(bez_pierwszej = X1 %>% 
+           str_extract(pattern = paste0(pierwsza, ".*")) %>% 
+           str_sub(start = 2)) %>% 
+  mutate(druga = bez_pierwszej %>% 
+           str_split(pattern = "", simplify = TRUE) %>% 
+           apply(1, max)) %>% 
+  mutate(liczba = paste0(pierwsza, druga) %>% 
+           as.numeric()) %>% 
+  summarise(suma = sum(liczba))
+```
+
+```{r}
+cyfra <- function(df){
+  df %>% 
+      mutate(pierwsza = X1 %>% 
+           str_split(pattern = "", simplify = TRUE) %>% 
+           apply(1,max)) %>% 
+      mutate(bez_pierwszej = X1 %>% 
+           str_extract(pattern = paste0(pierwsza, ".*")) %>% 
+           str_sub(start = 2)) %>% 
+      mutate(liczba = liczba*10 + as.numeric(pierwsza)) %>% 
+      mutate(X1 = paste0(bez_pierwszej, str_sub(pozostale,end = 1)),
+             pozostale = str_sub(pozostale,start = 2))
+}
+```
+
+```{r}
+# Rozwiązanie drugiej części zadania
+d2 <- dane %>% 
+  mutate(pozostale = str_sub(X1, start =-11),
+         X1 = str_sub(X1, end = -12),
+         liczba = 0)
+
+for (i in 1:12) {
+  d2 <- cyfra(d2)
+}
+
+d2 %>% 
+  summarise(suma = sum(liczba) %>% as.character())
+```
