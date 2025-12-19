@@ -104,7 +104,7 @@ sillyList :: (Int, Int) -> [Int]
 sillyList (x,y) = map (read . (\z -> z ++ z) . show) [x..y]
 ```
 
-Haskell jak większość języków programowania przyjmuje, że w razie kolizji zmiennych chodzi o jej najbardziej "lokalną" wersję. Funkcja `read . (\z -> z + z) . show` dla danej liczby najpier wykonuje `show`, czyli zmienia ją z Inta w Stringa, potem `\z -> z ++ z`, czyli bierze tego Stringa i "zlepia" go samego ze sobą (`++` to konkatenacja, czyli zlepianie stringów ), a na końcu wykonuje `read`, czyli zmienia Stringa znów w Inta.
+Haskell jak większość języków programowania przyjmuje, że w razie kolizji zmiennych chodzi o jej najbardziej "lokalną" wersję. Funkcja `read . (\z -> z ++ z) . show` dla danej liczby najpier wykonuje `show`, czyli zmienia ją z Inta w Stringa, potem `\z -> z ++ z`, czyli bierze tego Stringa i "zlepia" go samego ze sobą (`++` to konkatenacja, czyli zlepianie stringów ), a na końcu wykonuje `read`, czyli zmienia Stringa znów w Inta.
 
 Ostatnią funkcją pomocniczą `sumM` się nie przejmujcie. Musiałam mieć inną wersję zwykłego `sum`, przez to, że w jednym momencie algorytmu dostajemy wartości z `Maybe`. Jeszcze do tego zapomniałam o funkcji z pakietu bazowego `sequence`, która pozwala mi uciec od tego problemu (tak naprawdę `sumM = fmap sum . sequence`, ale to nieważne), więc napisałam swoją funkcję od zera.
 
