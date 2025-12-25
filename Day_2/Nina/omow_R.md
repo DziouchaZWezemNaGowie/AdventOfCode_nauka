@@ -139,3 +139,93 @@ dane %>%
 ```
 
 Bierzemy `dane` i dla każdego wiersza (`rowwise()`) wykonujemy `devide`. polecenie `mutate(tmp = list(devide(start, koniec))) %>% unnest_wider(tmp)` doda nam do tabelki `dane` dwie kolumny: `part_start` i `part_koniec` z wydzielonymi powtarzanymi częściami dla `start` i `koniec` w danym wierszu. Dalej po wierszach (`rowwise()`) filtrujemy tylko te wiersze, w których `part_start <= part_koniec`, po czym tworzymy nową kolumnę — `ile`, w której mamy (dla każdego wiersza) wartość funkcji `lacz(start, koniec, part_start, part_koniec)`), czyli sumę nieprawidłowych id znajdujących się w danym zakresie. Potem robimy `ungroup()`, które anuluje nam wcześniejsze `rowwise()`, bo chcemy wykonać operację nie po wierszach, a dla całej tabeli, a mianowicie sumujemy wartości w kolumnie `ile`.
+
+### Rozwiązanie drugiej części zadania
+
+Do drugiej części potrzebujemy najpierw nieco poprawić funkcję `lacz`:
+
+```r
+# do części drugiej poprawiam łącz, żeby zwracać wektor (żeby potem pozbyć się duplikatów)
+
+lacz_n <- function(start, koniec, a, b, k=2){
+  start <- start %>% as.numeric()
+  koniec <- koniec %>% as.numeric()
+  a <- a %>% as.numeric()
+  b <- b %>% as.numeric()
+  wynik <- NULL
+  
+  for(i in a:b){
+    i <- i %>% as.character()
+    x <- str_dup(i,k) %>% as.numeric()
+    if (x>= start && x <= koniec)
+      wynik <- c(wynik,x)
+  }
+  return(wynik)
+}
+```
+
+Jedyna różnica, że  `wynik` to teraz wektor, a nie liczba i zamiast dodawać do liczby, dołączamy kolejne nieprawidłowe id do wektora.
+
+Następnie mamy funkcję `rob_n`:
+
+```r
+# dla jednego range ta funkcja zwraca sumę niewłaściwych reportów
+
+rob_n <- function(start, koniec, n){
+  wektor <- NULL
+  
+  for(i in 2:n){                        # dzielimy na od 2 do n części
+    devided <- devide(start, koniec, i)
+    wektor <- c(wektor, lacz_n(start, koniec, devided$part_start, devided$part_koniec, i))
+  }
+  wektor %>%
+    unique() %>%                      #usuwamy duplikaty
+    sum() %>% 
+    return()
+}
+```
+
+`n` wskazuje, ile będzie maksymalnie powtarzanych części. `wektor` ustawiamy początkowo jako pusty wektor, następnie w pętli:
+
+```r
+  for(i in 2:n){                        # dzielimy na od 2 do n części
+    devided <- devide(start, koniec, i)
+    wektor <- c(wektor, lacz_n(start, koniec, devided$part_start, devided$part_koniec, i))
+  }
+```
+
+dzielimy `start` i `koniec` funkcją `divide` dla `k = i`, a poterm dołączamy rezultat funkcji `lacz_n(start, koniec, devided$part_start, devided$part_koniec,i)` do `wektor`.
+
+Na koniec robimy
+
+```r
+  wektor %>%
+    unique() %>%                      # usuwamy duplikaty
+    sum() %>%                         # sumujemy całość
+    return()                          # zwracamy
+```
+Możemy rozwiązać część drugą zadania
+
+```r
+# rozwiązanie części drugiej
+
+dane %>% 
+  rowwise() %>%                                                                    # po wierszach
+  mutate(ile = rob_n(start, koniec, max(str_width(start), str_width(koniec)))) %>% # dodajemy kolumnę ile z rezultatami rob_n
+  ungroup() %>%                                                                    # odgrupowujemy (teraz dla całej tabeli będzie)
+  summarise(sum(ile))                                                              # sumujemy
+```
+
+W złym id może być maksymalnie `max(str_width(start), str_width(koniec))` znaków.
+
+Zamieściłam też alternatywną wersję rozwiązania pierwszej części zadania:
+
+```r
+# rozwiązanie części pierwszej z rob_n
+
+dane %>% 
+  rowwise() %>% 
+  mutate(ile = rob_n(start, koniec, 2)) %>% 
+  ungroup() %>% 
+  summarise(sum(ile))
+```
