@@ -1,0 +1,124 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane <- read_lines("dane.txt") %>% 
+  as_tibble() %>% 
+  mutate(x = str_split(value, pattern = "")) %>% 
+  unnest_wider(x, names_sep = "") %>% 
+  mutate(across(starts_with("x"), ~ if_else(.x == '@', 1, 0))) %>% 
+  select(-value)
+
+dane
+```
+
+```{r}
+n <- nrow(dane)
+m <- ncol(dane)
+
+sasiedzi <- dane
+
+if(dane[1,1] == 1)
+  sasiedzi[1,1] <- dane[1,2] + dane[2,1] + dane[2,2] + 1
+if(dane[1,m] == 1)
+  sasiedzi[1,m] <- dane[1,m-1] + dane[2,m-1] + dane[2,m] + 1
+for(i in 2:(n-1)){
+  if(dane[i,1] == 1)
+    sasiedzi[i,1] <- dane[i-1,1] + dane[i-1,2] + dane[i,2] + dane[i+1,1] + dane[i+1,2] + 1
+  for(j in 2:(m-1)){
+    if(dane[1,j] == 1)
+      sasiedzi[1,j] <- dane[1,j-1] + dane[1,j+1] + dane[2,j-1] + dane[2,j] + dane[2,j+1] + 1
+    if(dane[i,j] == 1)
+      sasiedzi[i,j] <- dane[i-1,j-1] + dane[i-1,j] + dane[i-1, j + 1] + dane[i,j-1] + dane[i, j + 1] + dane[i + 1, j-1] + dane[i + 1, j] + dane[i + 1, j + 1] + 1
+    if(dane[n,j] == 1)
+      sasiedzi[n,j] <- dane[n-1,j-1] + dane[n-1, j] + dane[n-1, j+1] + dane[n, j-1] + dane[n, j+1] + 1
+  }
+  if(dane[i,m] == 1)
+    sasiedzi[i,m] <- dane[i-1,m-1] + dane[i-1,m] + dane[i,m-1] + dane[i+1,m-1] + dane[i+1, m] + 1
+}
+if(dane[n,1] == 1)
+  sasiedzi[n,1] <- dane[n-1,1] + dane[n-1,2] + dane[n,2] + 1
+if(dane[n,m] == 1)
+  sasiedzi[n,m] <- dane[n-1,m-1] + dane[n-1,m] + dane[n,m-1] + 1
+
+```
+
+```{r}
+# Rozwiązanie pierwszej części zadania
+
+sasiedzi %>% 
+  rowwise() %>% 
+  mutate(ile = rowSums(across(starts_with("x"), ~ if_else(0<.x && .x <=4, 1, 0)))) %>% 
+  ungroup() %>% 
+  summarise(odp = sum(ile))
+```
+
+```{r}
+sasiaduj <- function(dane) {
+n <- nrow(dane)
+m <- ncol(dane)
+
+sasiedzi <- dane
+
+if(dane[1,1] == 1)
+  sasiedzi[1,1] <- dane[1,2] + dane[2,1] + dane[2,2] + 1
+if(dane[1,m] == 1)
+  sasiedzi[1,m] <- dane[1,m-1] + dane[2,m-1] + dane[2,m] + 1
+for(i in 2:(n-1)){
+  if(dane[i,1] == 1)
+    sasiedzi[i,1] <- dane[i-1,1] + dane[i-1,2] + dane[i,2] + dane[i+1,1] + dane[i+1,2] + 1
+  for(j in 2:(m-1)){
+    if(dane[1,j] == 1)
+      sasiedzi[1,j] <- dane[1,j-1] + dane[1,j+1] + dane[2,j-1] + dane[2,j] + dane[2,j+1] + 1
+    if(dane[i,j] == 1)
+      sasiedzi[i,j] <- dane[i-1,j-1] + dane[i-1,j] + dane[i-1, j + 1] + dane[i,j-1] + dane[i, j + 1] + dane[i + 1, j-1] + dane[i + 1, j] + dane[i + 1, j + 1] + 1
+    if(dane[n,j] == 1)
+      sasiedzi[n,j] <- dane[n-1,j-1] + dane[n-1, j] + dane[n-1, j+1] + dane[n, j-1] + dane[n, j+1] + 1
+  }
+  if(dane[i,m] == 1)
+    sasiedzi[i,m] <- dane[i-1,m-1] + dane[i-1,m] + dane[i,m-1] + dane[i+1,m-1] + dane[i+1, m] + 1
+}
+if(dane[n,1] == 1)
+  sasiedzi[n,1] <- dane[n-1,1] + dane[n-1,2] + dane[n,2] + 1
+if(dane[n,m] == 1)
+  sasiedzi[n,m] <- dane[n-1,m-1] + dane[n-1,m] + dane[n,m-1] + 1
+
+return(sasiedzi)
+}
+```
+
+```{r}
+# Rozwiązanie drugiej części zadania
+x <- sasiedzi %>% 
+  rowwise() %>% 
+  mutate(ile = rowSums(across(starts_with("x"), ~ if_else(0<.x && .x <=4, 1, 0)))) %>% 
+  ungroup() %>% 
+  summarise(odp = sum(ile))
+
+wynik <- x
+
+while(x > 0){
+  
+  sasiedzi <- sasiedzi %>% 
+    apply(c(1,2), FUN = function(y) if_else(y<=4, 0, 1)) %>% 
+    sasiaduj() %>% 
+    as_tibble()
+  
+  x <- sasiedzi %>% 
+  rowwise() %>% 
+  mutate(ile = rowSums(across(starts_with("x"), ~ if_else(0<.x && .x <=4, 1, 0)))) %>% 
+  ungroup() %>% 
+  summarise(odp = sum(ile))
+  
+  wynik <- wynik + x
+}
+
+wynik
+```
