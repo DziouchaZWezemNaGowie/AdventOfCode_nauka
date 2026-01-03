@@ -1,0 +1,116 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane <- read_lines("dane.txt") %>% 
+  as_tibble() %>% 
+  mutate(g = cumsum(value == "")) %>% 
+  group_split(g)
+```
+
+```{r}
+ranges <- dane[[1]] %>% 
+  select(-g) %>% 
+  separate_wider_delim(value, delim = "-", names = c("start", "end")) %>% 
+  mutate(across(everything(), as.numeric))
+
+liczby <- dane[[2]] %>% 
+  select(-g) %>% 
+  filter(value != "") %>% 
+  mutate(across(everything(), as.numeric))
+```
+
+```{r}
+sprawdzaj <-  function(n){
+  y <- ranges %>% 
+    rowwise() %>% 
+    mutate(czy = between(n,start, end))
+  
+  return(y$czy)
+}
+```
+
+```{r}
+# Rozwiązanie pierwszej części zadania
+
+liczby %>% 
+  rowwise() %>% 
+  filter(any(sprawdzaj(value))) %>% 
+  nrow()
+```
+
+```{r}
+sprawdzaj_w <- function(df,n){
+    y <- df %>% 
+    rowwise() %>% 
+    mutate(czy = between(n,start, end))
+  
+  return(y$czy)
+}
+```
+
+```{r}
+# Rozwiązanie drugiej części zadania
+
+ranges %>% 
+  split(1:nrow(ranges)) %>% 
+  reduce(\(acc, x){
+    if(!(any(sprawdzaj_w(acc,x$start)) || any(sprawdzaj_w(acc,x$end)))){
+      acc %>% 
+        rowwise() %>% 
+        filter(!sprawdzaj_w(x,start)) %>% 
+        rbind(x)
+    }
+    else {
+      if(any(sprawdzaj_w(acc,x$start))){
+        pierwsza <- acc %>% 
+                  rowwise() %>% 
+                  filter(between(x$start, start, end))
+        if(any(sprawdzaj_w(acc,x$end))){
+          druga <- acc %>% 
+                  rowwise() %>% 
+                  filter(between(x$end, start, end))
+          if(all(pierwsza == druga)){
+              acc
+          }
+          else{
+            acc %>% 
+            rowwise() %>% 
+            filter(start != pierwsza$start && start != druga$start) %>% 
+            filter(!sprawdzaj_w(x,start)) %>% 
+            rbind(c(pierwsza$start, druga$end))
+          }
+        }
+        else{
+          acc %>% 
+            rowwise() %>% 
+            filter(start != pierwsza$start) %>% 
+            filter(!sprawdzaj_w(x,start)) %>% 
+            rbind(c(pierwsza$start,x$end))
+        }
+      }
+      else {
+        druga <- acc %>% 
+                rowwise() %>% 
+                filter(between(x$end, start, end))
+        acc %>% 
+          rowwise() %>% 
+          filter(start != druga$start) %>% 
+          filter(!sprawdzaj_w(x,start)) %>% 
+          rbind(c(x$start,druga$end))
+      }
+    }
+                
+}) %>% 
+  rowwise() %>% 
+  mutate(ile = end - start + 1) %>% 
+  ungroup() %>% 
+  summarise(sum(ile) %>% as.character())
+```
