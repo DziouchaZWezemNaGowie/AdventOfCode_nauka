@@ -295,4 +295,153 @@ int main(){
 
 Metoda `.empty()` sprawdza, czy string jest pusty.
 
-### Otrzymujesz 4 punkty za rozwiązanie pierwszej części zadania.
+Otrzymujesz **4 punkty** za rozwiązanie pierwszej części zadania.
+
+### Uwagi do rozwiązania drugiej części zadania
+
+Zadanie nie rozwiązane w pełni popawnie.
+
+Winowajca znajduje się w linijce 143:
+
+```cpp
+143				if(lines.at(it) == lines.back()){
+...
+```
+
+Tak naprawdę w tym ifie chcesz sprawdzić, czy znajdujesz się w ostatniej linijce. Tak napisany warunek może też być spełniony gdy `it` wskazuje na którąś z linijek w środku `lines`, ale akurat ta linijka jest równa ostatniej linijce. Zamiast tego trzeba było napisać np.:
+
+```cpp
+			if(it == lines.size() - 1){
+...
+```
+
+Po takiej poprawce program działa już dobrze.
+
+Jeśli zastosujemy takie analogiczne poprawki, jak te zaproponowane przeze mnie w części pierwszej, to dostaniemy następujący kod:
+
+```cpp
+#include<iostream>
+#include<fstream>
+#include<string>
+#include<vector>
+#include<tuple>                                               // żeby móc mieć parę (n-kę) uporządkowaną
+using namespace std;
+
+tuple<int,string> sasiedzi(string l1, string l2, string l3){ // zwracamy ile rolek wyładowujemy i stringa przedstawiającego rząd l2 po wyładowaniu rolek
+    int wynik=0;
+
+	for(int i = 0; i<l2.size(); i++){
+        int paper = 0;
+        if (l2[i]=='@'){
+            if(!l1.empty()){
+                if(i!=0 && l1[i-1]=='@'){
+					paper++;
+				}
+                if(i != l2.size() - 1 && l1[i+1]=='@'){
+					paper++;
+				}
+                if(l1[i]=='@'){
+					paper++;
+				}
+            }
+            if(!l3.empty()){
+                if(i != 0 && l3[i-1]=='@'){
+					paper++;
+				}
+                if(i != l2.size() - 1 && l3[i+1]=='@'){
+					paper++;
+				}
+                if(l3[i]=='@'){
+					paper++;
+				}
+            }
+            if(i != 0 && l2[i-1]=='@'){
+				paper++;
+			}
+            if(i != l2.size() - 1 && l2[i+1]=='@'){
+				paper++;
+			}
+            if(paper < 4){
+                wynik ++;
+                l2[i] = '.';                                          // dodajemy do poprzedniego kodu tylko zastępowanie rolek kropkami
+            }
+		}
+	}
+    return make_tuple(wynik,l2);                                     // zwracamy parę (wynik, l2)
+}
+
+int main() {
+	ifstream infile;
+	infile.open("dane.txt");
+	if (infile.is_open()) {
+		string l1, l2, l3, rl;
+		long long wynik=0;
+		long long pwynik = 5;
+
+		vector<string> lines;
+		while (infile >> rl){
+			lines.push_back(rl);
+		}
+
+		while(pwynik != wynik){
+		    pwynik = wynik;
+            int x;                                     // zmienna pomocnicza
+            
+            l1 = lines.at(0);
+            l2 = lines.at(1);
+
+            tie(x, l1) = sasiedzi("", l1, l2);         // przypisujemy wartość funkcji sasiedzi do pary (x,l1)
+            wynik += x;
+		    lines.at(0) = l1;
+
+		    for (int it = 2; it < lines.size(); it++){
+    			l3 = lines.at(it);               
+                tie(x, l2) = sasiedzi(l1,l2,l3);       // przypisujemy wartość funkcji sąsiedzi do pary (x,l2)
+                wynik += x;
+		    	lines.at(it-1) = l2;
+			    l1 = l2;
+    			l2 = l3;		
+	    	}
+
+            tie(x, l3) = sasiedzi(l1,l2,"");          // przypisujemy wartość funkcji sąsiedzi do pary (x,l3)
+            wynik += x;
+		    lines.back() = l3;                        // zastępujemy ostatnią linijkę w lines przez l3
+        }
+
+		cout << wynik;
+	}else{
+		cout << "nie otwarlo sie";
+	}
+	return 0;
+}
+```
+
+O krotkach (tuples) w C++ możesz przeczytać [tutaj](https://www.geeksforgeeks.org/cpp/tuples-in-c/).
+
+Jeszcze 2 uwagi na koniec. Po pierwsze możesz uniknąć sztucznego przypisywania wartości zmiennej `pwynik` na początku, korzystając z pętli `do_while`. Działa ona jak pętla `while`, tylko najpierw wykonuje to, co w pętli, a potem sprawdza warunek (tak więc pętla wykonuje się przynajmniej raz). To jest zamiast:
+
+```cpp
+long long pwynik = 5;
+...
+		while(pwynik != wynik){
+		    pwynik = wynik;
+...
+		}
+```
+
+możesz napisać:
+
+```cpp
+long long pwynik;
+...
+		do{
+			pwynik = wynik;
+...
+		} while(pwynik != wynik);
+```
+
+Po drugie, to rolek nie będzie aż tak dużo (dla moich danych jest ich co najwyżej 140*140 = 19600), więc zamiast `long long` mogłeś używać po prostu `int`.
+
+Otrzymujesz **2 punkty** za rozwiązanie drugiej części zadania.
+
+### Brawo! Zdobyłeś razem 6 punktów za zadanie czwarte!
