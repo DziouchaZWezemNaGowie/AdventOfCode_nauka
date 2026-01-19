@@ -1,0 +1,66 @@
+---
+title: "Zad_6"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane1 <- read_table("dane.txt",col_names = FALSE) %>% 
+  t() %>% 
+  as_tibble() %>% 
+  rename(operator = last_col()) %>% 
+  mutate(across(starts_with("V"),as.numeric))
+```
+
+```{r}
+# Rozwiązanie pierwszej części
+dane1 %>% 
+  rowwise() %>% 
+  mutate(V = c_across(starts_with("V")) %>% list(),
+         ile = switch(operator,
+                      "+" = sum(V),
+                      "*" = prod(V))) %>% 
+  select(-V) %>% 
+  ungroup() %>% 
+  summarise(sum(ile) %>% as.character())
+```
+
+```{r}
+dane2 <- read_lines("dane.txt") %>% 
+  as_tibble() %>% 
+  mutate(value = str_split(value, pattern = "")) %>% 
+  unnest_wider(value, names_sep = "") %>% 
+  t() %>% 
+  as_tibble() %>% 
+  rename(operator = last_col()) %>%
+  rowwise() %>% 
+  mutate(liczba = paste0(c_across(starts_with("V")), collapse = "")) %>% 
+  select(liczba, operator)
+
+```
+
+```{r}
+liczby <- dane2$liczba %>% split(cumsum(str_detect(.,"^\\s+$"))) %>% 
+  sapply(function(x) x[!str_detect(x,"^\\s+$")]) %>% 
+  sapply(str_squish) %>% 
+  sapply(as.numeric)
+```
+
+```{r}
+operatory <- dane2$operator[! str_detect(dane2$operator, "\\s")]
+```
+
+```{r}
+# Rozwiązanie drugiej części
+tibble(liczby, operatory) %>% 
+  rowwise() %>% 
+  mutate(ile = switch(operatory,
+                      "+" = sum(liczby),
+                      "*" = prod(liczby))) %>% 
+  ungroup() %>% 
+  summarise(sum(ile) %>% as.character())
+```
