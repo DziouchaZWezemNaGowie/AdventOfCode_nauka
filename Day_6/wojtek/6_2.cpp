@@ -36,7 +36,7 @@ int main() {
 					czy = 0;
 					x = 0;
 					for(int k = 0; k < liczby.size(); k++){
-						if (liczby[k][i+j] == '1' || liczby[k][i+j] == '2' || liczby[k][i+j] == '3' || liczby[k][i+j] == '4' || liczby[k][i+j] == '5' || liczby[k][i+j] == '6' || liczby[k][i+j] == '7' || liczby[k][i+j] == '8' || liczby[k][i+j] == '9' || liczby[k][i+j] == '10'){
+						if (liczby[k][i+j] == '1' || liczby[k][i+j] == '2' || liczby[k][i+j] == '3' || liczby[k][i+j] == '4' || liczby[k][i+j] == '5' || liczby[k][i+j] == '6' || liczby[k][i+j] == '7' || liczby[k][i+j] == '8' || liczby[k][i+j] == '9' || liczby[k][i+j] == '0'){
 							liczba = liczby[k][i+j];
 							y = stoi(liczba);
 							x = x * 10 + y;
@@ -63,3 +63,4 @@ int main() {
 	}
 	return 0;
 }
+
