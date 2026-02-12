@@ -191,5 +191,50 @@ np. dla inputu
 +
 ```
 
-twój program zwraca `4444` zamiast `44444` (o jedną czwórkę za mało).
+twój program zwraca `4444` zamiast `5555`.
 
+Warunek `j == liczby.size() - 1` zapewne dodałeś, żeby wychodzić z pętli gdy dojdziemy do ostatniej kolumny. Jest tak, gdy `i + j == lenght - 1` 🙂
+
+Kolejny problem leży w linijkach 48–52. Nie zmieniasz zmiennej `mwynik` jeśli `x == 0`, a może tak się zdarzyć, gdy
+- przeszliśmy przez kolumnę samych spacji (i skuli tego przypadku dodałeś ten warunek)
+- w danych naprawdę mamy zero
+
+dlatego dla inputu
+
+```
+110
+20 
+3  
+*
+```
+
+Twój program da odpowiedź `1230` zamiast `0`.
+
+Poniżej prezentuję, jakbym poprawiła twój kod, opisując zmiany w komentarzach.
+
+```cpp
+				for(int j = 0; i + j < lenght; j++){        // sprawdzamy w warunku pętli, czy nie doszliśmy do końca wiersza
+					int czy = 0;                            // teraz można czy = 0 sprzed pętli usunąć
+					int x = 0;                              // jak widzisz przeniosłam deklaracje zmiennych tam gdzie ich używamy
+					for(int k = 0; k < liczby.size(); k++){
+						if (liczby[k][i+j] != ' '){         // tu wystarczy sprawdzić, czy != ' ' zamiast tego długiego warunku xd
+							liczba = liczby[k][i+j];
+							x = x * 10 + stoi(liczba);	    // pozbyłam się y
+						}else{
+							czy++;
+						}
+					}
+					if (czy == liczby.size()){              // zaraz po przejściu przez kolumnę sprawdzam, czy nie była wypełniona spacjami
+						break;                              // break wyrzuca nas z najbardziej wewnętrznej pętli. Lepiej robić tak, niż warunkiem
+					}                                       // też sprawdzam to tutaj, żeby od razu wyjść z pętli, gdy dojdziemy do kolumny spacji
+					if(znak == '*'){                        // tutaj już x == 0 tylko gdy tak było w danych
+						mwynik = mwynik * x;                // jak była kolumna spacji, to nie dochodzimy tutaj, bo wyskoczyliśmy z pętli breakiem
+					}else{                                  // zauważ też, że zrobiłam znak jako char
+						mwynik += x;                        // oczywiście wyżej w kodzie pozmieniałam wszystko, żeby znak był typu char
+					}
+				}
+```
+
+Otrzymujesz **2punkty** za rozwiązanie drugiej części zadania.
+
+### Brawo! Zdobyłeś razem 6 punktów za zadanie szóste!
