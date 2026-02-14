@@ -221,9 +221,10 @@ int n = dane.size();
 int acc[n];
 acc[n-1] = 50;
 
-for(i = 0; i < n; i++)
+for(i = 0; i < n; i++) {
   x = dane[i];
   acc[n - 2 - i] = turn(acc[n - 1 - i], x);
+}
 ```
 
 Ufff... No to jak mamy już listę wszystkich pozycji, na których spoczywa pokrętło po kolejnych obrotach, to robimy
