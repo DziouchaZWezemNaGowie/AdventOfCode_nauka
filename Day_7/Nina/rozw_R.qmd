@@ -1,0 +1,15 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane <- read_lines("dane.txt")
+
+dane
+```
