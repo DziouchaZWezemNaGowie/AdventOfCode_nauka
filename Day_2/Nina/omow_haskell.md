@@ -131,7 +131,7 @@ Jeszcze dopiszę typy w każdym kroku
             . filter (/= Nothing)                                 -- [Maybe Int], ale to lista tylko z wartościami postaci Just Int
             . map                                                 -- [Maybe Int], czyli lista wartości postaci Just Int lub Nothing
               (\(x,y) -> sum                                              -- Maybe Int, czyli Just Int lub Nothing
-                         . filter ((&&) <$> (>= read x) <*> (<= read y))  -- Maybe Int, czyli Just [Int] lub Nothing
+                         . filter ((&&) <$> (>= read x) <*> (<= read y))  -- Maybe [Int], czyli Just [Int] lub Nothing
                          . sillyList                                      -- Maybe [Int], czyli Just [Int] lub Nothing
                          <$> niceRange (x,y)                              -- Maybe (Int, Int), czyli Just (Int, Int) lub Nothing
               )                             
