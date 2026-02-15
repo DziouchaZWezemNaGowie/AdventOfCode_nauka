@@ -1,0 +1,89 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane <- read_lines("dane.txt") %>% 
+  as_tibble_col() %>% 
+  rename(punkt = value) %>% 
+  mutate(punkt = punkt %>% 
+    str_split(",") %>% 
+    lapply(as.numeric))
+```
+
+```{r}
+distance <- function(x,y){
+  (x - y)^2 %>% sum()
+}
+```
+
+```{r}
+n <- length(dane$punkt)
+punkty <- NULL
+for(i in 1:(n-1)){
+  punkty <- tibble(punkt1 = dane$punkt[i],punkt2 = dane$punkt[(i+1):n]) %>% 
+    bind_rows(punkty)
+}
+```
+
+```{r}
+punkty <- punkty %>%
+  rowwise() %>% 
+  mutate(dist = distance(unlist(punkt1), unlist(punkt2))) %>% 
+  ungroup() %>% 
+  arrange(dist)
+```
+
+```{r}
+circuits <- tibble(punkt = dane$punkt,circuit = 1:n)
+```
+
+```{r}
+for (i in 1:1000){
+  punkt1 <- punkty[i,]$punkt1
+  punkt2 <- punkty[i,]$punkt2
+  zmienic <- (circuits %>% 
+    filter(punkt %in% c(punkt1,punkt2)))$circuit
+  c <- zmienic[1]
+  circuits <- circuits %>% 
+    mutate(circuit = if_else(circuit %in% zmienic,
+                             c,
+                             circuit))
+}
+```
+
+```{r}
+#Rozwiązanie pierwszej części
+circuits %>%  
+  count(circuit) %>% 
+  arrange((desc(n))) %>% 
+  head(3) %>%
+  summarise(prod(n))
+```
+
+```{r}
+for (i in 1001:nrow(punkty)){
+  punkt1 <- punkty[i,]$punkt1
+  punkt2 <- punkty[i,]$punkt2
+  zmienic <- (circuits %>% 
+    filter(punkt %in% c(punkt1,punkt2)))$circuit
+  c <- zmienic[1]
+  circuits <- circuits %>% 
+    mutate(circuit = if_else(circuit %in% zmienic,
+                             c,
+                             circuit))
+  if(n_distinct(circuits$circuit) == 1)
+    break
+}
+```
+
+```{r}
+# Rozwiązanie drugiej części
+unlist(punkt1)[1] * unlist(punkt2)[1]
+```
