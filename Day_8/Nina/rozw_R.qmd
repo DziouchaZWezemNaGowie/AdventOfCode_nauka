@@ -1,0 +1,62 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+dane <- read_lines("dane.txt")
+```
+
+```{r}
+start <- str_locate(dane[1], 'S')[1,1] %>% c()
+dane <- dane[-1]
+```
+
+```{r}
+# Rozwiązanie pierwszej części
+ile <- 0
+ns <- c(start)
+
+for (line in dane) {
+  newns <- NULL
+  for (n in ns) {
+    if(str_split_i(line,"",n) == "^"){
+      newns <- c(newns, n-1, n+1)
+      ile <- ile + 1 
+    }
+    else
+      newns <- c(newns,n)
+  }
+  ns <- newns %>% unique()
+}
+
+ile
+```
+
+```{r}
+#Rozwiązanie drugiej części
+worlds <- tibble(n = start,k = 1)
+
+for (line in dane) {
+  worlds <- worlds %>% 
+  rowwise() %>% 
+  mutate(newworlds = if_else(str_split_i(line,"",n) == "^",
+                             tibble(n = c(n-1,n+1),k) %>% list(),
+                             tibble(n,k) %>% list()))
+
+worlds <- worlds$newworlds %>%
+  bind_rows() %>% 
+  group_by(n) %>% 
+  summarise(k = sum(k))
+}
+
+worlds %>% 
+  summarise(ile = sum(k) %>% as.character())
+
+
+```
